@@ -237,9 +237,16 @@ fun main() = runBlocking<Unit> {
 // [DefaultDispatcher-worker-1 @coroutine#1] withContext 블록 실행
 ```
 
+
+
 - 위 코드의 실행 결과를 보면, 코루틴이 실행되는 **스레드(CoroutineContext)는 변경**되었지만, 코루틴은 여전히 **동일한 코루틴**이라는 것을 알 수 있다.
 - `withContext` 함수는 기존의 코루틴에서 `CoroutineContext` 객체만 바꿔서 실행한다.
 - 다시 말해, `withContext` 함수가 호출되면, 실행 중인 코루틴의 실행 환경이 `withContext` 함수의 인자로 전달된 `context` 값으로 변경돼 실행되며, 이를 컨텍스트 스위칭(Context Switching)이라고 한다.
+
+<div align="center" style="display:flex; align-items: center; justify-content: center; gap: 20px;">
+<img height="200px" src="https://github.com/user-attachments/assets/6f015511-5152-4111-af0d-12ae9517271e">
+<img height="200px" src="https://github.com/user-attachments/assets/f0ea0196-7796-4a3e-98c3-47f0245830a8">
+</div>
 
 ```kotlin
 fun main() = runBlocking<Unit> {
@@ -259,3 +266,17 @@ fun main() = runBlocking<Unit> {
 
 - `withContext` 함수는 새로운 코루틴을 만들지 않기 때문에, 하나의 코루틴에서 `withContext` 함수가 여러 번 호출되더라도 순차적으로 실행된다.
 - 즉, 다수의 작업을 병렬로 실행하고 싶다면 `async-await` 함수를 사용해야 한다.
+
+
+## 5.5. 요약
+
+1. `async` 함수를 사용해 코루틴을 실행하면 코루틴의 결과를 감싸는 `Deferred` 객체를 반한받는다.
+2. `Deferred`는 `Job`의 서브타입으로 `Job` 객체에 결괏값을 감싸는 기능이 추가된 객체이다.
+3. `Deferred` 객체에 대해 `await` 함수를 호출하면 결괏값을 반환받을 수 있다.  
+   `await` 함수를 호출한 코루틴은 `Deferred` 객체가 결괏값을 반환할 때까지 일시 중단 후 대기한다.
+4. `awaitAll` 함수를 사용해 복수의 `Deferred` 코루틴이 결괏값을 반환할 때까지 대기할 수 있다. 
+5. `awaitAll` 함수는 컬렉션에 대한 확장 함수로도 제공된다.
+6. `withContext` 함수를 사용해 `async-await` 쌍을 대체할 수 있다.
+7. `withContext` 함수는 코루틴을 새로 생성하지 않는다. 코루틴의 실행 환경을 담는 `CoroutineContext`만 변경해 코루틴을 실행하므로 이를 활용해 코루틴이 실행되는 스레드를 변경할 수 있다.
+8. `withContext` 함수는 코루틴을 새로 생성하지 않으므로 병렬로 실행돼야 하는 북수의 작업을 `withContext`로 감싸 실행하면 순차적으로 실행된다. 이럴 때는 `withContext` 대신 `async`를 사용해 작업이 병렬로 실행될 수 있도록 해야 한다.
+9. `withContext`로 인해 실행 환경이 변경돼 실행되는 코투틴은 `withContext`의 작업을 모두 실행하면 다시 이전의 실행 환경으로 돌아온다. 

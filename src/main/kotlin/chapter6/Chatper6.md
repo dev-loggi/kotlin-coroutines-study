@@ -24,7 +24,9 @@ _(이외에도 다양한 구성 요소가 있지만, 이 중에서 가장 많이
 
 ### 6.2.1. CoroutineContext가 구성 요소를 관리하는 방법
 
-<그림 6-1 표>
+<div align="center">
+  <img height="300px" src="https://github.com/user-attachments/assets/d62ca526-ea42-4231-ba17-ea8016dcf463">
+</div>
 
 - CoroutineContext 객체는 키-값 쌍으로 구성된다.
 - 각 구성 요소는 고유한 키를 가지며, 키에 대해 중복된 값은 허용되지 않는다.
@@ -48,7 +50,9 @@ fun main() = runBlocking<Unit> {
 
 위 코드에서 만들어진 `coroutineContext` 객체는 다음 표와 같이 구성된다.
 
-<그림 6-2 표>
+<div align="center">
+  <img height="300px" src="https://github.com/user-attachments/assets/5a0c4563-08a9-4016-bc29-071ce1345e65">
+</div>
 
 > 구성 요소가 없는 CoroutineContext는 EmptyCoroutineContext를 통해 만들 수 있다.
 
@@ -199,6 +203,15 @@ fun main() = runBlocking<Unit> {
 - 단, 여기서 주의할 점은 `minusKey()` 함수는 **새로운 CoroutineContext 객체를 반환**한다는 것이다.
 - 따라서, `minusKey()` 함수를 사용해 구성 요소를 제거하면, 기존의 CoroutineContext 객체는 변경되지 않는다.
 
-### 6.4.1. minusKey 사용해 구성 요소 제거하기
+## 6.5. 요약
 
-### 6.4.2. minusKey 함수 사용 시 주의할 점
+1. CoroutineContext 객체는 코루틴의 실행 환경을 설정하고 관리하는 객체로 CoroutineDispatcher, CoroutineName, Job, CoroutineExceptionHandler 등의 객체를 조합해 코루틴 실행 환경을 정의한다.
+2. CoroutineContext의 네 가지 주요한 구성 요소는 코루틴의 이름을 설정하는 CoroutineName 객체, 코루틴을 스레드로 보내 실행하는 CoroutineDispatcher 객체, 코루틴을 조작하는 데 사용하는 Job 객체, 코루틴의 예외를 처리하는 CoroutineExceptionHandler 객체이다.
+3. CoroutineContext 객체는 키-값 쌍으로 구성 요소를 관리하며, 동일한 키에 대해 중복된 값을 허용하지 않는다. 따라서 각 구성 요소를 한 개씩만 가질 수 있다.
+4. 더하기 연산자(`+`)를 사용해 CoroutineContext의 구성 요소를 조합할 수 있다.
+5. 동일한 키를 가진 구성 요소가 여러 개 추가될 경우 나중에 추가된 구성 요소가 이전 값을 덮어씌운다. 즉, 마지막에 추가된 구성 요소만 유효하다.
+6. 일반적으로 구성 요소의 동반 객체로 선언된 key 프로퍼티를 사용해 키 값에 접근할 수 있다. 예를 들어 CoroutineName의 키 값은 CoroutineName.Key를 통해 접근할 수 있다.
+7. 키를 연산자 함수인 get과 함께 사용해 CoroutineContext 객체에 설정된 구성 요소에 접근할 수 있다. 예를 들어 CoroutineContext 객체인 coroutineContext의 CoroutineName 구성 요소에 접근하고 싶다면 `coroutineContext.get(CoroutineName.Key)`와 같이 사용하면 된다.
+8. `get` 연산자 함수는 대괄호(`[]`)로 대체할 수 있다. 따라서 앞의 `coroutineContext.get(CoroutineName.Key)`는 `coroutineContext[CoroutineName.Key]`로 대체할 수 있다.
+9. CoroutineName, CoroutineDispatcher, Job, CoroutineExceptionHandler는 동반 객체인 Key를 통해 CoroutineContext.Key를 구현하기 때문에 그 자체로 키를 사용할 수 있다. 따라서 `coroutineContext[CoroutineName]`은 `coroutineContext[CoroutineName.Key]`와 같은 연산을 한다.
+10. CoroutineContext 객체의 `minusKey` 함수를 사용하면 CoroutineContext 객체에서 특정 구성 요소를 제거한 객체를 반환받을 수 있다.
