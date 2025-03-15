@@ -8,3 +8,4 @@
 - [4장 코루틴 빌더와 Job](chapter4/Chatper4.md)
 - [5장 async와 Deferred](chapter5/Chapter5.md)
 - [6장 CoroutineContext](chapter6/Chatper6.md)
+- [7장 CoroutineScope](chapter7/Chapter7.md)

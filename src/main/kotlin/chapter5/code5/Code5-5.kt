@@ -18,5 +18,5 @@ fun main() = runBlocking<Unit> {
     val results: List<List<String>> =
         awaitAll(participantDeferred1, participantDeferred2) // 모든 요청이 끝날 때까지 대기
 
-    println("${timer.elapsedTimeToString()} 참여자 목록: ${results.flatten()}")
+    println("${timer.elapsedTime()} 참여자 목록: ${results.flatten()}")
 }

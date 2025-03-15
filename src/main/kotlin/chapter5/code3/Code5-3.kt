@@ -20,5 +20,5 @@ fun main() = runBlocking<Unit> {
     }
     val participant2 = participantDeferred2.await() // 5. 결과가 수신될 떄까지 대기
 
-    println("${timer.elapsedTimeToString()} 참여자 목록: ${participant1 + participant2}") // 6. 지난 시간 표시 및 참여자 목록을 병합하여 출력
+    println("${timer.elapsedTime()} 참여자 목록: ${participant1 + participant2}") // 6. 지난 시간 표시 및 참여자 목록을 병합하여 출력
 }

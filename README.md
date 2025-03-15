@@ -8,3 +8,4 @@
 - [4장 코루틴 빌더와 Job](src/main/kotlin/chapter4/Chatper4.md)
 - [5장 async와 Deferred](src/main/kotlin/chapter5/Chapter5.md)
 - [6장 CoroutineContext](src/main/kotlin/chapter6/Chatper6.md)
+- [7장 구조화된 동시성](src/main/kotlin/chapter7/Chapter7.md)
